@@ -1,0 +1,10 @@
+## Install some python tools globally
+---
+- name: Update pip (and fix potential pip error)
+  shell: python -m pip install --upgrade --force pip
+  sudo: yes
+
+- name: install global python tools
+  pip: name={{ item }}
+  sudo: yes
+  with_items: dotfiles_global_python_packages

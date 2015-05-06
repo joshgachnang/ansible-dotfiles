@@ -1,0 +1,15 @@
+# Example: ansible-playbook --ask-sudo-pass -v -i "localhost," -c local -v dotfiles.yml
+---
+- name: symlink user files
+  include: symlink.yml
+
+- name: configure debian
+  include: debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: configure osx
+  include: osx.yml
+  when: ansible_os_family == "Darwin"
+
+- name: configure python
+  include: python.yml

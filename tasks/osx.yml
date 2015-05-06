@@ -1,0 +1,23 @@
+## OSX installs
+---
+- name: update homebrew, upgrade any existing packages
+  homebrew: update_homebrew=yes upgrade_all=yes
+
+- name: brew tap
+  shell: brew tap {{ item }}
+  with_items: dotfiles_homebrew_taps
+
+- name: install homebrew packages
+  homebrew: name={{ item }} state=latest
+  with_items: dotfiles_homebrew_packages
+
+- name: install homebrew packages with options
+  homebrew: name={{ item.package }} install_options={{ item.options }} state=latest
+  with_items: dotfiles_homebrew_packages_with_options
+
+- name: install homebrew cask packages
+  homebrew_cask: name={{ item }} state=installed
+  with_items: dotfiles_cask_packages
+
+- name: cleanup homebrew
+  shell: brew cleanup

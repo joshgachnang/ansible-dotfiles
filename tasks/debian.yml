@@ -1,0 +1,21 @@
+## Linux installs
+---
+- name: install packages to enable ppa additions
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+  - software-properties-common
+  - apt-transport-https
+  sudo: yes
+
+- name: enable automatic security updates
+  copy: src=/usr/share/unattended-upgrades/20auto-upgrades dest=/etc/apt/apt.conf.d/20auto-upgrades
+  sudo: yes
+
+- name: add apt ppas
+  shell: apt-add-repository ppa:{{ item }}
+  with_items: dotfiles_apt_ppas
+
+- name: install apt packages
+  apt: pkg={{ item }} state=latest update_cache=yes
+  sudo: yes
+  with_items: dotfiles_debian_packages

@@ -1,0 +1,13 @@
+## Install base files, symlink dotfiles
+---
+- name: create dotfiles dirs
+  local_action: file path={{ item }} state=directory
+  with_items: dotfiles_create_dirs
+
+- name: symlink dotfiles
+  local_action: file src={{ dotfiles_src_dir }}/{{ item.src }} dest={{ item.dest }} state=link
+  with_items: dotfiles_link_files
+
+- name: install templated dotfiles
+  local_action: template src={{ item.src }} dest={{ item.dest }}
+  with_items: dotfiles_template_files
