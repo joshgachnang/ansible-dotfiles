@@ -15,6 +15,10 @@
   homebrew: name={{ item.package }} install_options={{ item.options }} state=latest
   with_items: dotfiles_homebrew_packages_with_options
 
+- name: install cask if we have cask packages
+  shell: brew install caskroom/cask/brew-cask
+  when: dotfiles_cask_packages is defined
+
 - name: install homebrew cask packages
   homebrew_cask: name={{ item }} state=installed
   with_items: dotfiles_cask_packages
